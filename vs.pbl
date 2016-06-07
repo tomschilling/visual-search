@@ -2,28 +2,30 @@ define Start(lPar)
 {
     gWin <- MakeWindow()
 
-    if(gSubNum+""=="0")
+    if(gSubNum + "" == "0")
     {
         gSubNum <- GetSubNum(gWin)
     }
 
     gFileOut <- FileOpenAppend("vs-data.csv")
 
-    white <- MakeColor("white")
-    widthStage <- 800
-    heightStage <- 800
-    rect <- Rectangle(gVideoWidth / 2, gVideoHeight / 2, widthStage, heightStage, white, 1)
-    AddObject(rect, gWin)
+    canvas <- MakeCanvas(800, 800, MakeColor("white"))
+    AddObject(canvas, gWin)
+    Move(canvas, gVideoWidth / 2, gVideoHeight / 2)
+
+    catImage <- MakeImage("cat.jpg")
+    AddObject(catImage, canvas)
+    Move(catImage, canvas.width / 2, canvas.height / 2)
 
     Draw()
 
-    Log(10, 12345)
+    PrintToCSV(10, 12345)
 
     WaitForAnyKeyPress()
 
 }
 
-define Log(trial, time)
+define PrintToCSV(trial, time)
 {
     FilePrint(gFileOut, gSubNum + ","  + trial + "," + time + "," + TimeStamp())
 }
