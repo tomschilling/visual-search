@@ -1,5 +1,5 @@
 # visual-search
 
 ```
-$ pebl visual-search.pbl
+$ pebl vs.pbl
 ```
