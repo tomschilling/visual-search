@@ -1,0 +1,42 @@
+define Start(lPar)
+{
+    gWin <- MakeWindow()
+
+    if(gSubNum+""=="0")
+    {
+        gSubNum <- GetSubNum(gWin)
+    }
+
+    gFileOut <- FileOpenAppend("vs-data.csv")
+
+    white <- MakeColor("white")
+    widthStage <- 800
+    heightStage <- 800
+    rect <- Rectangle(gVideoWidth / 2, gVideoHeight / 2, widthStage, heightStage, white, 1)
+    AddObject(rect, gWin)
+
+    Draw()
+
+    Log(10, 12345)
+
+    WaitForAnyKeyPress()
+
+}
+
+define Log(trial, time)
+{
+    FilePrint(gFileOut, gSubNum + ","  + trial + "," + time + "," + TimeStamp())
+}
+
+define Trial()
+{
+
+}
+
+define RemoveObjects(list,object)
+{
+    loop(i,list)
+    {
+        RemoveObject(i,object)
+    }
+}

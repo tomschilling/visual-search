@@ -1,6 +1,0 @@
-define Start(parameter)
-{
-    Print((33 + 2425)/
-    325)
-    Print("Hello World"); Print("Goodbye World")
-}
