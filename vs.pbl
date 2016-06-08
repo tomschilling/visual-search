@@ -13,36 +13,44 @@ define Start(lPar)
     ## Instructions
     instWidth <- 800
     instHeight <- 200
-    inst <- EasyTextBox("", gVideoWidth / 2 - instWidth / 2, gVideoHeight / 2 - instHeight / 2, gWin, 24, instWidth, instHeight)
-    inst.text <- "These are the instructions. Press any key to begin."
+    inst <- EasyTextBox("", gVideoWidth / 2 - instWidth / 2, 75, gWin, 24, instWidth, instHeight)
+    inst.text <- "Das ist die Anleitung. Drücken Sie eine beliebige Taste um mit dem Experiment zu beginnen."
     Draw()
     WaitForAnyKeyPress()
     Hide(inst)
 
-    ## Create canvas
-    canvasWidth <- 800
-    canvasHeight <- 800
-    gCanvas <- MakeCanvas(canvasWidth, canvasHeight, MakeColor("white"))
+    ## Create task label and canvas
+    gTaskLabel <- EasyLabel("", gVideoWidth / 2, 75, gWin, 24)
+    gCanvas <- MakeCanvas(800, 800, MakeColor("white"))
     AddObject(gCanvas, gWin)
     Move(gCanvas, gVideoWidth / 2, gVideoHeight / 2)
     Draw()
 
     ## Trials
-    lImageNames <- ["cat.jpg", "cat2.jpg"]
-    loop(imageName, lImageNames)
+    trialsDefnFile <- "trialdefn.csv"
+    trialsDefn <- ReadCSV(trialsDefnFile)
+
+    loop(trialDefn, trialsDefn)
     {
-        Trial(imageName)
+        task <- Nth(trialDefn, 1)
+        imageName <- Nth(trialDefn, 2)
+        Trial(task, imageName)
     }
 }
 
-define Trial(imageName)
+define Trial(task, imageName)
 {
     ResetCanvas(gCanvas)
+    Hide(gCanvas)
+    gTaskLabel.text <- task
+    Draw()
+    Wait(3000)
 
-    catImage <- MakeImage(imageName)
-    AddObject(catImage, gCanvas)
-    Move(catImage, gCanvas.width / 2, gCanvas.height / 2)
+    image <- MakeImage(imageName)
+    AddObject(image, gCanvas)
+    Move(image, gCanvas.width / 2, gCanvas.height / 2)
 
+    Show(gCanvas)
     Draw()
     t1 <- GetTime()
     WaitforKeyPress(" ")
