@@ -1,38 +1,59 @@
 define Start(lPar)
 {
     gWin <- MakeWindow()
-
+    gSleepEasy <- 1
     if(gSubNum + "" == "0")
     {
         gSubNum <- GetSubNum(gWin)
     }
 
-    gFileOut <- FileOpenAppend("vs-data.csv")
+    csvHeader <- "subNum,image,time,timestamp"
+    gFileOut <- GetNewDataFile(gSubNum, gWin, "vs", "csv", csvHeader)
 
-    canvas <- MakeCanvas(800, 800, MakeColor("white"))
-    AddObject(canvas, gWin)
-    Move(canvas, gVideoWidth / 2, gVideoHeight / 2)
+    ## Instructions
+    instWidth <- 800
+    instHeight <- 200
+    inst <- EasyTextBox("", gVideoWidth / 2 - instWidth / 2, gVideoHeight / 2 - instHeight / 2, gWin, 24, instWidth, instHeight)
+    inst.text <- "These are the instructions. Press any key to begin."
+    Draw()
+    WaitForAnyKeyPress()
+    Hide(inst)
 
-    catImage <- MakeImage("cat.jpg")
-    AddObject(catImage, canvas)
-    Move(catImage, canvas.width / 2, canvas.height / 2)
-
+    ## Create canvas
+    canvasWidth <- 800
+    canvasHeight <- 800
+    gCanvas <- MakeCanvas(canvasWidth, canvasHeight, MakeColor("white"))
+    AddObject(gCanvas, gWin)
+    Move(gCanvas, gVideoWidth / 2, gVideoHeight / 2)
     Draw()
 
-    PrintToCSV(10, 12345)
-
-    WaitForAnyKeyPress()
-
+    ## Trials
+    lImageNames <- ["cat.jpg", "cat2.jpg"]
+    loop(imageName, lImageNames)
+    {
+        Trial(imageName)
+    }
 }
 
-define PrintToCSV(trial, time)
+define Trial(imageName)
 {
-    FilePrint(gFileOut, gSubNum + ","  + trial + "," + time + "," + TimeStamp())
+    ResetCanvas(gCanvas)
+
+    catImage <- MakeImage(imageName)
+    AddObject(catImage, gCanvas)
+    Move(catImage, gCanvas.width / 2, gCanvas.height / 2)
+
+    Draw()
+    t1 <- GetTime()
+    WaitforKeyPress(" ")
+    t2 <- GetTime()
+
+    FilePrint(gFileOut, MakeCSVLine(imageName, t2 - t1))
 }
 
-define Trial()
+define MakeCSVLine(trial, time)
 {
-
+    return gSubNum + ","  + trial + "," + time + "," + TimeStamp()
 }
 
 define RemoveObjects(list,object)
