@@ -14,7 +14,7 @@ define Start(par)
     gFileOut <- GetNewDataFile(gSubNum, gWin, "vs", "csv", csvHeader)
 
     ## Instructions
-    MessageBox("Das ist die Anleitung... . Klicken Sie bitte auf OK, um mit dem Testdurchlauf zu beginnen.", gWin)
+    MessageBox("Das ist die Anleitung... Drücken Sie die linke Maustaste, wenn Sie das gesuchte Objekt gefunden haben. Klicken Sie bitte auf OK, um mit dem Testdurchlauf zu beginnen.", gWin)
     CountDown(gWin)
     ShowCursor(0)
 
@@ -29,8 +29,7 @@ define Start(par)
     ## Trials
     trialsDefnFile <- "trialdefn.csv"
     trialsDefn <- ReadCSV(trialsDefnFile)
-    testTrialDefnIndices <- [2]
-
+    testTrialDefnIndices <- [1]
 
     filterTestTrialDefn <- Repeat(0, Length(trialsDefn))
     loop(testTrialDefnIndex, testTrialDefnIndices)
