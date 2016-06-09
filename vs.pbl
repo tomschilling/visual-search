@@ -1,4 +1,7 @@
-define Start(lPar)
+## PEBL Visual search task
+## Authors: Tom Schilling, Steven Maasch
+
+define Start(par)
 {
     gWin <- MakeWindow()
     gSleepEasy <- 1
@@ -7,38 +10,65 @@ define Start(lPar)
         gSubNum <- GetSubNum(gWin)
     }
 
-    csvHeader <- "subNum,image,time,timestamp"
+    csvHeader <- "subNum,time,type,task,image,timestamp"
     gFileOut <- GetNewDataFile(gSubNum, gWin, "vs", "csv", csvHeader)
 
     ## Instructions
-    instWidth <- 800
-    instHeight <- 200
-    inst <- EasyTextBox("", gVideoWidth / 2 - instWidth / 2, 75, gWin, 24, instWidth, instHeight)
-    inst.text <- "Das ist die Anleitung. Drücken Sie eine beliebige Taste um mit dem Experiment zu beginnen."
-    Draw()
-    WaitForAnyKeyPress()
-    Hide(inst)
+    MessageBox("Das ist die Anleitung... . Klicken Sie bitte auf OK, um mit dem Testdurchlauf zu beginnen.", gWin)
+    CountDown(gWin)
+    ShowCursor(0)
 
     ## Create task label and canvas
-    gTaskLabel <- EasyLabel("", gVideoWidth / 2, 75, gWin, 24)
+    gTaskLabel <- EasyLabel("", gVideoWidth / 2, gVideoHeight / 2, gWin, 32)
     gCanvas <- MakeCanvas(800, 800, MakeColor("white"))
     AddObject(gCanvas, gWin)
     Move(gCanvas, gVideoWidth / 2, gVideoHeight / 2)
+    Hide(gCanvas)
     Draw()
 
     ## Trials
     trialsDefnFile <- "trialdefn.csv"
     trialsDefn <- ReadCSV(trialsDefnFile)
+    testTrialDefnIndices <- [2]
 
-    loop(trialDefn, trialsDefn)
+
+    filterTestTrialDefn <- Repeat(0, Length(trialsDefn))
+    loop(testTrialDefnIndex, testTrialDefnIndices)
     {
-        task <- Nth(trialDefn, 1)
-        imageName <- Nth(trialDefn, 2)
-        Trial(task, imageName)
+        SetElement(filterTestTrialDefn, testTrialDefnIndex, 1)
     }
+
+    testTrialsDefn <- Filter(trialsDefn, filterTestTrialDefn)
+    mainTrialsDefn <- RemoveSubset(trialsDefn, testTrialDefnIndices)
+    mainTrialsDefnShuffled <- Shuffle(mainTrialsDefn)
+
+    loop(testTrialDefn, testTrialsDefn)
+    {
+        TrialByTrialDefn(testTrialDefn)
+    }
+
+    MessageBox("Gut gemacht. Klicken Sie bitte auf OK, wenn Sie mit dem Hauptexperiment beginnen möchten.", gWin)
+    CountDown(gWin)
+    ShowCursor(0)
+
+    loop(mainTrialDefn, mainTrialsDefnShuffled)
+    {
+        TrialByTrialDefn(mainTrialDefn)
+    }
+
+    ShowCursor(1)
+    MessageBox("Wir bedanken uns für die Teilnahme an diesem Experiment.", gWin)
 }
 
-define Trial(task, imageName)
+define TrialByTrialDefn(trialDefn)
+{
+    task <- Nth(trialDefn, 1)
+    imageName <- Nth(trialDefn, 2)
+    type <- Nth(trialDefn, 3)
+    Trial(task, imageName, type)
+}
+
+define Trial(task, imageName, type)
 {
     ResetCanvas(gCanvas)
     Hide(gCanvas)
@@ -53,15 +83,15 @@ define Trial(task, imageName)
     Show(gCanvas)
     Draw()
     t1 <- GetTime()
-    WaitforKeyPress(" ")
+    WaitForDownClick()
     t2 <- GetTime()
 
-    FilePrint(gFileOut, MakeCSVLine(imageName, t2 - t1))
+    FilePrint(gFileOut, MakeCSVLine(t2 - t1, type, task, imageName))
 }
 
-define MakeCSVLine(trial, time)
+define MakeCSVLine(time, type, task, image)
 {
-    return gSubNum + ","  + trial + "," + time + "," + TimeStamp()
+    return gSubNum + "," + time + "," + type + "," + task + "," + image + "," + TimeStamp()
 }
 
 define RemoveObjects(list,object)
