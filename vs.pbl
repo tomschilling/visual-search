@@ -14,7 +14,9 @@ define Start(par)
     gFileOut <- GetNewDataFile(gSubNum, gWin, "vs", "csv", csvHeader)
 
     ## Instructions
-    MessageBox("Das ist die Anleitung... Drücken Sie die linke Maustaste, wenn Sie das gesuchte Objekt gefunden haben. Klicken Sie bitte auf OK, um mit dem Testdurchlauf zu beginnen.", gWin)
+    MessageBox("Unser Experiment ist im Teilgebiet der 'Visuellen Aufmerksamkeit' der Wahrnehmungstheorie angesiedelt und basiert auf der Untersuchungsmethode der visuellen Suche. Die Aufgabe von Versuchspersonen bei dieser Methode ist es, einen Zielstimulus in einer Menge von vielen anderen Stimuli so schnell wie möglich zu finden.
+In unserem Experiment wird die Reaktionszeit in Millisekunden bis zum Finden des jeweiligen Zielstimulus gemessen. Drücken Sie bitte die linke Maustaste, wenn Sie das gesuchte Objekt gefunden haben. 
+Klicken Sie bitte auf OK, um mit dem Testdurchlauf zu beginnen.", gWin)
     CountDown(gWin)
     ShowCursor(0)
 
