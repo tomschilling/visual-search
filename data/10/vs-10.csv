@@ -1,0 +1,12 @@
+subNum,time,type,task,image,timestamp
+10,1061,feature-search,Finden Sie das Dreieck.,fs-mag-triangle.png,Fri Jul 08 09:18:13 2016
+10,5490,conjunction-search,Finden Sie den orangenen Kreis.,cs-orange-circle.png,Fri Jul 08 09:18:27 2016
+10,2020,conjunction-search,Finden Sie den roten Kreis.,cs-red-circle.png,Fri Jul 08 09:18:32 2016
+10,10380,conjunction-search,Finden Sie die orangene Raute.,cs-orange-hash.png,Fri Jul 08 09:18:45 2016
+10,1669,feature-search,Finden Sie das gelbe Quadrat.,fs-yellow-square.png,Fri Jul 08 09:18:50 2016
+10,2380,conjunction-search,Finden Sie den schwarzen Stern.,cs-black-star.png,Fri Jul 08 09:18:55 2016
+10,1596,feature-search,Finden Sie das blaue Trapez.,fs-blue-trapez.png,Fri Jul 08 09:19:00 2016
+10,4217,feature-search,Finden Sie den traurigen Smiley.,cs-smiley.png,Fri Jul 08 09:19:07 2016
+10,13690,conjunction-search,Finden Sie den Stern mit sieben Zacken.,cs-seven-star.png,Fri Jul 08 09:19:24 2016
+10,1775,conjunction-search,Finden Sie die grüne L-Form.,cs-green-l-form.png,Fri Jul 08 09:19:29 2016
+10,1939,feature-search,Finden Sie den nach links drehenden Pfeil.,fs-arrow.png,Fri Jul 08 09:19:34 2016
